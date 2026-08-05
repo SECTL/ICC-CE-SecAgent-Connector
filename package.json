@@ -1,0 +1,6 @@
+{
+  "name": "iccce-secagent-connector",
+  "private": true,
+  "type": "module",
+  "scripts": { "check": "node --check main.mjs" }
+}
