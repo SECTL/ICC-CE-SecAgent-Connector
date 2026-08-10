@@ -20,4 +20,6 @@ description: 执行 ICC-CE 的版本查询、设置管理、当前墨迹/屏幕�
 - `iccce-connector__add_iccce_whiteboard_page`：在当前页后新增白板页。
 - `iccce-connector__delete_iccce_whiteboard_page`：删除当前白板页；至少保留一页。
 
+截图工具会直接把图片返回给模型；拿到图片后应直接分析图片，不要再调用 `look_at`，也不要猜测或生成 `secagent_screenshot.png` 等本地路径。`look_at` 仅用于用户已经提供了本地图片路径的场景。
+
 修改前必须阅读本 Skill 目录中的 `SETTINGS_REFERENCE.md`，确认字段路径、类型和影响范围，再读取目标字段。插件会拒绝密码、Token、Secret、哈希、盐和 TOTP 等敏感字段，并在写入前创建 `Settings.json.bak`。部分只在启动时读取的设置需要重启 ICC-CE。
