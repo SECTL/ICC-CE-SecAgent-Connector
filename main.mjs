@@ -1,5 +1,8 @@
 const BASE_URL = "http://127.0.0.1:18790";
 const SKILL_PATH = "skills/iccce";
+// Match Chinese text directly adjacent to the keywords as well as whitespace;
+// the Unicode case-insensitive flag covers CE/ICC/ICCCE/ICC-CE variants.
+const SKILL_AUTO_LOAD_PATTERN = /画板|画布|批注|(?:插入|添加|写入|更新|编辑|删除).{0,20}(?:画板|画布)|CE|ICCCE|ICC-CE|ICC/iu;
 
 export async function activate(api) {
   let connected = false;
@@ -50,7 +53,7 @@ export async function activate(api) {
         });
         registeredTools.push(tool.name);
       }
-      api.registerSkill(SKILL_PATH);
+      api.registerSkill(SKILL_PATH, SKILL_AUTO_LOAD_PATTERN);
       connected = true;
       api.setStatus(`已连接 ICC-CE（${registeredTools.length} 个工具）`);
     } catch (error) {
