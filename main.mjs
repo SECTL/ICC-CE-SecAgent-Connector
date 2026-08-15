@@ -58,7 +58,8 @@ export async function activate(api) {
       api.setStatus(`已连接 ICC-CE（${registeredTools.length} 个工具）`);
     } catch (error) {
       unregister();
-      api.setStatus(`等待 ICC-CE HTTP 服务：${error instanceof Error ? error.message : String(error)}`, "error");
+      // An unavailable companion service is a connection state, not a plugin load error.
+      api.setStatus(`等待 ICC-CE HTTP 服务：${error instanceof Error ? error.message : String(error)}`);
     }
   };
 
