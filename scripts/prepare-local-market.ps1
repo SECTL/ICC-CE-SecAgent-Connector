@@ -3,15 +3,17 @@ param(
 )
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
+$manifest = Get-Content -LiteralPath (Join-Path $repoRoot "secagent-plugin.json") -Raw | ConvertFrom-Json
+$version = $manifest.version
 $stageDirectory = Join-Path $OutputDirectory ".package"
-$archivePath = Join-Path $OutputDirectory "iccce-connector-1.0.0.zip"
+$archivePath = Join-Path $OutputDirectory "iccce-connector-$version.zip"
 $indexPath = Join-Path $OutputDirectory "index.json"
 
 New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
 if (Test-Path -LiteralPath $stageDirectory) { Remove-Item -LiteralPath $stageDirectory -Recurse -Force }
 New-Item -ItemType Directory -Path $stageDirectory | Out-Null
 
-Copy-Item -Force (Join-Path $repoRoot "main.mjs"), (Join-Path $repoRoot "secagent-plugin.json"), (Join-Path $repoRoot "README.md") -Destination $stageDirectory
+Copy-Item -Force (Join-Path $repoRoot "main.mjs"), (Join-Path $repoRoot "secagent-plugin.json"), (Join-Path $repoRoot "icon.svg"), (Join-Path $repoRoot "README.md") -Destination $stageDirectory
 Copy-Item -Force (Join-Path $repoRoot "skills") -Destination $stageDirectory -Recurse
 Compress-Archive -Path (Join-Path $stageDirectory "*") -DestinationPath $archivePath -Force
 Remove-Item -LiteralPath $stageDirectory -Recurse -Force
@@ -26,11 +28,12 @@ $index = [ordered]@{
             name = "ICC-CE Connector"
             description = "Connects SecAgent to the local ICC-CE HTTP API and provides ICC-CE tools and Skills."
             repository = "https://github.com/SECTL/ICC-CE-SecAgent-Connector"
+            icon = "https://raw.githubusercontent.com/SECTL/ICC-CE-SecAgent-Connector/main/icon.svg"
             versions = @(
                 [ordered]@{
-                    version = "1.0.0"
+                    version = $version
                     minHostApiVersion = 1
-                    assetUrl = "http://127.0.0.1:42190/iccce-connector-1.0.0.zip"
+                    assetUrl = "http://127.0.0.1:42190/iccce-connector-$version.zip"
                     sha256 = $sha256
                     permissions = @("agent.tools", "agent.skills", "network.http")
                     platforms = @("win32")
