@@ -25,8 +25,8 @@ $index = [ordered]@{
     plugins = @(
         [ordered]@{
             id = "iccce-connector"
-            name = "ICC-CE Connector"
-            description = "Connects SecAgent to the local ICC-CE HTTP API and provides ICC-CE tools and Skills."
+            name = "ICC-CE 联动"
+            description = "让 SecAgent 读取画板内容或向画板插入内容"
             repository = "https://github.com/SECTL/ICC-CE-SecAgent-Connector"
             icon = "https://raw.githubusercontent.com/SECTL/ICC-CE-SecAgent-Connector/main/icon.svg"
             versions = @(
